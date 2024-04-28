@@ -8,11 +8,10 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b #v4.1.4
-
-      - id: nextVersion
-        run: echo "newTag=$(git describe --tags --abbrev=0 | awk -F '.' '{print $1+1}')" >> "$GITHUB_OUTPUT"
 
       - uses: cachix/install-nix-action@8887e596b4ee1134dae06b98d573bd674693f47c #v26
         with:
@@ -20,7 +19,14 @@ jobs:
 
       - run: nix build .#baseImage
 
+      - name: Bump version and push tag
+        id: tag_version
+        uses: mathieudutour/github-tag-action@a22cf08638b34d5badda920f9daf6e72c477b07b #v6.2
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
       - uses: ncipollo/release-action@2c591bcc8ecdcd2db72b97d6147f871fcd833ba5 #v1.14.0 
         with:
-          artifacts: "result/nixos.img"
-          tag: ${{ steps.nextVersion.outputs.newTag }}
+          tag: ${{ steps.tag_version.outputs.new_tag }}
+          name: Release ${{ steps.tag_version.outputs.new_tag }}
+          body: ${{ steps.tag_version.outputs.changelog }}
