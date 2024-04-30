@@ -37,4 +37,11 @@
       cloud_final_modules: []
     '';
   };
+
+  fileSystems."/" = {
+    label = "nixos";
+    fsType = "ext4";
+    autoResize = true;
+  };
+  boot.loader.grub.device = "/dev/sda";
 }

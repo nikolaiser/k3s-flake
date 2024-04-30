@@ -1,0 +1,36 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Config schema for k3s vm",
+  "type": "object",
+  "properties": {
+    "hostname": {
+      "type": "string"
+    },
+    "leaderIp": {
+      "type": "string"
+    },
+    "nodeIp": {
+      "type": "string"
+    },
+    "clusterIp": {
+      "type": "string"
+    },
+    "allNodes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "token": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "hostname",
+    "leaderIp",
+    "nodeIp",
+    "clusterIp",
+    "allNodes",
+    "token"
+  ]
+}

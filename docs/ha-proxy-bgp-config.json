@@ -1,0 +1,42 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Config schema for haproxy vm",
+  "type": "object",
+  "properties": {
+    "hostname": {
+      "type": "string",
+    }
+    "floatingIp": {
+      "type": "string"
+    },
+    "nodeIp": {
+      "type": "string"
+    },
+    "bgpAs": {
+      "type": "string"
+    },
+    "bgpRemoteIp": {
+      "type": "string"
+    },
+    "targetServers": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "targetPorts": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "floating_ip",
+    "node_ip",
+    "bgp_as",
+    "bgp_remote_ip",
+    "target_servers",
+    "target_ports"
+  ]
+}

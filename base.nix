@@ -1,5 +1,4 @@
 {
-  imports = [ ./cloud-init.nix ];
 
   system.stateVersion = "23.11";
 
@@ -10,13 +9,6 @@
   services.qemuGuest.enable = true;
 
   security.sudo.wheelNeedsPassword = false;
-
-  fileSystems."/" = {
-    label = "nixos";
-    fsType = "ext4";
-    autoResize = true;
-  };
-  boot.loader.grub.device = "/dev/sda";
 
   users.users.ops = {
     isNormalUser = true;
