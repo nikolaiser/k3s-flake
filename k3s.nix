@@ -1,7 +1,7 @@
 { conf, lib, ... }:
 
 let
-  isLeader = conf.leader == conf.nodeIp;
+  isLeader = conf.leaderIp == conf.nodeIp;
 
   k3sFlags = "--flannel-backend=none --disable-kube-proxy --disable=traefik --disable=servicelb --disable=local-storage --disable-network-policy --egress-selector-mode=disabled --write-kubeconfig-mode 644";
 
@@ -16,7 +16,7 @@ in
     role = "server";
     token = conf.token;
     clusterInit = isLeader;
-    serverAddr = if isLeader then "https://${conf.leader}:6443" else "";
+    serverAddr = if !isLeader then "https://${conf.leaderIp}:6443" else "";
     extraFlags = flags;
 
   };
