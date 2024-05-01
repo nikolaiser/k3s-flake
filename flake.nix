@@ -17,7 +17,7 @@
         modules = [ ./base.nix ./cloud-init.nix "${nixpkgs}/nixos/modules/profiles/qemu-guest.nix" ];
       };
 
-      conf = lib.trivial.importJson ./config.json;
+      conf = lib.trivial.importJSON ./config.json;
 
       makeDiskImage = import "${nixpkgs}/nixos/lib/make-disk-image.nix";
 
@@ -32,7 +32,7 @@
       };
 
       nixosConfigurations = {
-        k3s = lib.nixosSystem {
+        k3s = nixpkgs.lib.nixosSystem {
           inherit lib pkgs system;
           specialArgs = {
             inherit conf;
@@ -40,7 +40,7 @@
           modules = [ ./k3s.nix ./hardware-configuration.nix ./base.nix ];
         };
 
-        haproxyBgp = lib.nixosSystem
+        haproxyBgp = nixpkgs.lib.nixosSystem
           {
             inherit lib pkgs system;
             specialArgs = {
