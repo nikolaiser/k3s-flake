@@ -4,6 +4,8 @@
 
   nixpkgs.hostPlatform = "x86_64-linux";
 
+  nix.settings.trusted-users = [ "ops" ];
+
   services.openssh.enable = true;
 
   services.qemuGuest.enable = true;
