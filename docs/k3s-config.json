@@ -29,7 +29,6 @@
     "hostname",
     "leaderIp",
     "nodeIp",
-    "clusterIp",
     "allNodes",
     "token"
   ]

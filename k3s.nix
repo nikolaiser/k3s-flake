@@ -6,7 +6,8 @@ let
   k3sFlags = "--flannel-backend=none --disable-kube-proxy --disable=traefik --disable=servicelb --disable=local-storage --disable-network-policy --egress-selector-mode=disabled --write-kubeconfig-mode 644";
 
   nodesTlsFlags = builtins.map (ip: "--tls-san ${ip} ") conf.allNodes;
-  tlsFlags = "--tls-san ${conf.clusterIp} ${lib.concatStrings nodesTlsFlags}";
+  clusterIpTlsFlag = if builtins.hasAttr "clusterIp" conf then "--tls-san ${conf.clusterIp}" else "";
+  tlsFlags = "${clusterIpTlsFlag} ${lib.concatStrings nodesTlsFlags}";
 
   flags = "--node-ip ${conf.nodeIp} --node-external-ip ${conf.nodeIp} ${k3sFlags} ${tlsFlags}";
 in
