@@ -3,9 +3,13 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
+    purgaArgs = {
+      url = "file+file:///dev/null";
+      flake = false;
+    };
   };
 
-  outputs = { self, nixpkgs }:
+  outputs = { self, nixpkgs, purgaArgs }:
     let
       system = "x86_64-linux";
 
@@ -17,7 +21,7 @@
         modules = [ ./base.nix ./cloud-init.nix "${nixpkgs}/nixos/modules/profiles/qemu-guest.nix" ];
       };
 
-      conf = lib.trivial.importJSON ./config.json;
+      conf = lib.trivial.importJSON purgaArgs.outPath;
 
       makeDiskImage = import "${nixpkgs}/nixos/lib/make-disk-image.nix";
 
