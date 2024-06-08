@@ -1,3 +1,4 @@
+{conf, ...}:
 {
 
   system.stateVersion = "23.11";
@@ -15,6 +16,9 @@
   users.users.ops = {
     isNormalUser = true;
     extraGroups = [ "wheel" ];
+    openssh.authorizedKeys.keys = [
+      conf.ssh-key
+    ];
   };
 
   networking = {
@@ -24,5 +28,13 @@
   };
 
   systemd.network.enable = true;
+
+  fileSystems."/" = {
+    label = "nixos";
+    fsType = "ext4";
+    autoResize = true;
+  };
+  
+  boot.loader.grub.device = "/dev/sda";
 
 }
