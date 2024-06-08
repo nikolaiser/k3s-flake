@@ -16,14 +16,19 @@
       pkgs = nixpkgs.legacyPackages.${system};
       inherit (pkgs) lib;
 
+      state = {
+        environment.etc.flake.source = self;
+        environment.etc.purgaArgs.source = purgaArgs.outPath;
+      };
 
       baseSystem = nixpkgs.lib.nixosSystem {
-        modules = [ ./base.nix ./cloud-init.nix "${nixpkgs}/nixos/modules/profiles/qemu-guest.nix" ];
+        modules = [ ./base.nix ./cloud-init.nix "${nixpkgs}/nixos/modules/profiles/qemu-guest.nix" state ];
       };
 
       conf = lib.trivial.importJSON purgaArgs.outPath;
 
       makeDiskImage = import "${nixpkgs}/nixos/lib/make-disk-image.nix";
+
 
     in
     {
@@ -41,7 +46,7 @@
           specialArgs = {
             inherit conf;
           };
-          modules = [ ./k3s.nix ./hardware-configuration.nix ./base.nix ];
+          modules = [ ./k3s.nix ./hardware-configuration.nix ./base.nix state ];
         };
 
         haproxyBgp = nixpkgs.lib.nixosSystem
@@ -50,7 +55,7 @@
             specialArgs = {
               inherit conf;
             };
-            modules = [ ./ha-proxy-bgp.nix ./hardware-configuration.nix ./base.nix ];
+            modules = [ ./ha-proxy-bgp.nix ./hardware-configuration.nix ./base.nix state ];
           };
       };
     };
