@@ -1,4 +1,4 @@
-{conf, ...}:
+{ conf, ... }:
 {
 
   system.stateVersion = "23.11";
@@ -17,7 +17,7 @@
     isNormalUser = true;
     extraGroups = [ "wheel" ];
     openssh.authorizedKeys.keys = [
-      conf.ssh-key
+      conf.sshKey
     ];
   };
 
@@ -34,7 +34,7 @@
     fsType = "ext4";
     autoResize = true;
   };
-  
+
   boot.loader.grub.device = "/dev/sda";
 
 }
