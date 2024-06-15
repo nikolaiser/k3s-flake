@@ -18,7 +18,6 @@
       fsType = "ext4";
     };
 
-  boot.loader.grub.device = "nodev";
 
   swapDevices = [ ];
 
